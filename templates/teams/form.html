@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Team — Cricket MS{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+
+    <!-- Breadcrumb header -->
+    <div class="d-flex align-items-center mb-4">
+      <a href="{{ url_for('teams_list') }}" class="btn btn-outline-secondary me-3">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div>
+        <h2 class="mb-0">{{ action }} Team</h2>
+        <p class="text-muted mb-0">
+          {{ 'Register a new cricket team' if action == 'Add' else 'Update the team details below' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header cricket-card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-shield-alt me-2"></i>Team Details
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <form method="POST" novalidate>
+
+          <!-- Team Name -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Team Name <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="team_name" class="form-control"
+                   placeholder="e.g. Mumbai Warriors"
+                   value="{{ team.team_name if team else '' }}"
+                   maxlength="100" required />
+          </div>
+
+          <!-- Coach Name -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Coach Name <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="coach_name" class="form-control"
+                   placeholder="e.g. Sachin Tendulkar"
+                   value="{{ team.coach_name if team else '' }}"
+                   maxlength="100" required />
+          </div>
+
+          <!-- Home Ground -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Home Ground <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="home_ground" class="form-control"
+                   placeholder="e.g. Wankhede Stadium, Mumbai"
+                   value="{{ team.home_ground if team else '' }}"
+                   maxlength="150" required />
+          </div>
+
+          <!-- Founded Year -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Founded Year</label>
+            <input type="number" name="founded_year" class="form-control"
+                   placeholder="e.g. 2008" min="1800" max="2100"
+                   value="{{ team.founded_year if team else '' }}" />
+            <div class="form-text">Leave blank if unknown.</div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-cricket flex-grow-1">
+              <i class="fas fa-save me-1"></i> {{ action }} Team
+            </button>
+            <a href="{{ url_for('teams_list') }}" class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

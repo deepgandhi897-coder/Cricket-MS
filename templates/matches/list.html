@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}Matches — Cricket MS{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="page-header mb-0">
+    <h2><i class="fas fa-trophy me-2"></i>Matches</h2>
+    <p class="text-muted mb-0">All recorded cricket matches</p>
+  </div>
+  <a href="{{ url_for('matches_add') }}" class="btn btn-cricket">
+    <i class="fas fa-plus me-1"></i> Add Match
+  </a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header cricket-card-header">
+    <h5 class="mb-0">All Matches
+      <span class="badge bg-light text-dark ms-2">{{ matches | length }}</span>
+    </h5>
+  </div>
+
+  <div class="card-body p-0">
+    {% if matches %}
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Match</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Venue</th>
+              <th>Winner</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in matches %}
+            <tr>
+              <td class="text-muted">{{ loop.index }}</td>
+              <td>
+                <strong>{{ m.team1_name }}</strong>
+                <span class="text-muted mx-2">vs</span>
+                <strong>{{ m.team2_name }}</strong>
+              </td>
+              <td>
+                <span class="badge match-type-badge">{{ m.match_type }}</span>
+              </td>
+              <td>{{ m.match_date }}</td>
+              <td>
+                <i class="fas fa-map-marker-alt text-muted me-1"></i>{{ m.venue }}
+              </td>
+              <td>
+                {% if m.winner_name %}
+                  <span class="badge bg-success">🏆 {{ m.winner_name }}</span>
+                {% else %}
+                  <span class="badge bg-secondary">No Result</span>
+                {% endif %}
+              </td>
+              <td class="text-center">
+                <a href="{{ url_for('matches_edit', match_id=m.match_id) }}"
+                   class="btn btn-sm btn-outline-primary me-1">
+                  <i class="fas fa-edit"></i>
+                </a>
+                <form method="POST"
+                      action="{{ url_for('matches_delete', match_id=m.match_id) }}"
+                      class="d-inline"
+                      onsubmit="return confirm('Delete this match? All player statistics for this match will also be removed.');">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-trophy fa-3x d-block mb-3"></i>
+        <p>No matches recorded yet. Start by adding a match!</p>
+        <a href="{{ url_for('matches_add') }}" class="btn btn-cricket">
+          <i class="fas fa-plus me-1"></i> Add Match
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Match — Cricket MS{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    <div class="d-flex align-items-center mb-4">
+      <a href="{{ url_for('matches_list') }}" class="btn btn-outline-secondary me-3">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div>
+        <h2 class="mb-0">{{ action }} Match</h2>
+        <p class="text-muted mb-0">
+          {{ 'Record a new cricket match' if action == 'Add'
+             else 'Update match details' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header cricket-card-header">
+        <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Match Details</h5>
+      </div>
+
+      <div class="card-body">
+        <form method="POST" novalidate>
+
+          <!-- Team 1 & Team 2 -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">
+                Team 1 <span class="text-danger">*</span>
+              </label>
+              <select name="team1_id" class="form-select" required>
+                <option value="">— Select Team 1 —</option>
+                {% for t in teams %}
+                  <option value="{{ t.team_id }}"
+                          {% if match and match.team1_id == t.team_id %}selected{% endif %}>
+                    {{ t.team_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">
+                Team 2 <span class="text-danger">*</span>
+              </label>
+              <select name="team2_id" class="form-select" required>
+                <option value="">— Select Team 2 —</option>
+                {% for t in teams %}
+                  <option value="{{ t.team_id }}"
+                          {% if match and match.team2_id == t.team_id %}selected{% endif %}>
+                    {{ t.team_name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <!-- Winner -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Winner</label>
+            <select name="winner_id" class="form-select">
+              <option value="">— No Result / Match in Progress —</option>
+              {% for t in teams %}
+                <option value="{{ t.team_id }}"
+                        {% if match and match.winner_id == t.team_id %}selected{% endif %}>
+                  🏆 {{ t.team_name }}
+                </option>
+              {% endfor %}
+            </select>
+            <div class="form-text">Must be either Team 1 or Team 2.</div>
+          </div>
+
+          <!-- Date + Type -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">
+                Match Date <span class="text-danger">*</span>
+              </label>
+              <input type="date" name="match_date" class="form-control" required
+                     value="{{ match.match_date if match else '' }}" />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">
+                Match Type <span class="text-danger">*</span>
+              </label>
+              <select name="match_type" class="form-select" required>
+                {% for mt in ['T20', 'ODI', 'Test'] %}
+                  <option value="{{ mt }}"
+                          {% if match and match.match_type == mt %}selected{% endif %}>
+                    {{ mt }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <!-- Venue -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">
+              Venue <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="venue" class="form-control"
+                   placeholder="e.g. Wankhede Stadium, Mumbai"
+                   value="{{ match.venue if match else '' }}"
+                   maxlength="150" required />
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-cricket flex-grow-1">
+              <i class="fas fa-save me-1"></i> {{ action }} Match
+            </button>
+            <a href="{{ url_for('matches_list') }}" class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

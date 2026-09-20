@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}Statistics — Cricket MS{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="page-header mb-0">
+    <h2><i class="fas fa-chart-bar me-2"></i>Player Statistics</h2>
+    <p class="text-muted mb-0">
+      Aggregated performance — GROUP BY, SUM(), MAX(), COUNT(), LEFT JOIN
+    </p>
+  </div>
+  <a href="{{ url_for('statistics_add') }}" class="btn btn-cricket">
+    <i class="fas fa-plus me-1"></i> Add Stats
+  </a>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header cricket-card-header">
+    <h5 class="mb-0">All-Time Player Leaderboard</h5>
+  </div>
+
+  <div class="card-body p-0">
+    {% if stats %}
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Player</th>
+              <th>Team</th>
+              <th>Role</th>
+              <th class="text-center">Matches</th>
+              <th class="text-center">Total Runs</th>
+              <th class="text-center">Highest</th>
+              <th class="text-center">Wickets</th>
+              <th class="text-center">Catches</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% set role_classes = {
+               'Batsman':       'badge-batsman',
+               'Bowler':        'badge-bowler',
+               'All-Rounder':   'badge-allrounder',
+               'Wicket-Keeper': 'badge-keeper'
+            } %}
+            {% for s in stats %}
+            <tr>
+              <td class="text-muted">{{ loop.index }}</td>
+              <td><strong>{{ s.player_name }}</strong></td>
+              <td>
+                {% if s.team_name %}
+                  <span class="badge bg-success">{{ s.team_name }}</span>
+                {% else %}
+                  <span class="badge bg-warning text-dark">Unassigned</span>
+                {% endif %}
+              </td>
+              <td>
+                <span class="badge {{ role_classes.get(s.role, 'bg-secondary') }}">
+                  {{ s.role }}
+                </span>
+              </td>
+              <td class="text-center">{{ s.matches_played or 0 }}</td>
+              <td class="text-center"><strong>{{ s.total_runs or 0 }}</strong></td>
+              <td class="text-center">
+                {% if s.highest_score and s.highest_score > 0 %}
+                  <span class="badge bg-warning text-dark">
+                    ⭐ {{ s.highest_score }}
+                  </span>
+                {% else %}
+                  <span class="text-muted">—</span>
+                {% endif %}
+              </td>
+              <td class="text-center">{{ s.total_wickets or 0 }}</td>
+              <td class="text-center">{{ s.total_catches or 0 }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-chart-bar fa-3x d-block mb-3"></i>
+        <p>No statistics recorded yet.</p>
+        <a href="{{ url_for('statistics_add') }}" class="btn btn-cricket">
+          <i class="fas fa-plus me-1"></i> Add Stats
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- SQL info card -->
+<div class="card mt-4 border-0 bg-white shadow-sm">
+  <div class="card-body">
+    <h6 class="fw-bold text-muted mb-2">
+      <i class="fas fa-database me-2"></i>SQL Query Used
+    </h6>
+    <pre class="bg-dark text-success rounded p-3 mb-0" style="font-size:0.78rem;overflow-x:auto;">SELECT p.PLAYER_NAME, t.TEAM_NAME, p.ROLE,
+       COUNT(ps.MATCH_ID)        AS matches_played,
+       NVL(SUM(ps.RUNS),    0)   AS total_runs,
+       NVL(MAX(ps.RUNS),    0)   AS highest_score,
+       NVL(SUM(ps.WICKETS), 0)   AS total_wickets,
+       NVL(SUM(ps.CATCHES), 0)   AS total_catches
+FROM   PLAYERS p
+LEFT JOIN TEAMS             t  ON p.TEAM_ID   = t.TEAM_ID
+LEFT JOIN PLAYER_STATISTICS ps ON p.PLAYER_ID = ps.PLAYER_ID
+GROUP BY p.PLAYER_NAME, t.TEAM_NAME, p.ROLE
+ORDER BY total_runs DESC NULLS LAST;</pre>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,212 @@
+/* ============================================================
+   Cricket Management System — Custom Stylesheet
+   Theme: Cricket Green + Amber Gold
+   Bootstrap 5 companion styles
+   ============================================================ */
+
+:root {
+  --cricket-green:       #1a5c38;
+  --cricket-light-green: #2d8a57;
+  --cricket-dark:        #0d2818;
+  --cricket-amber:       #f0a500;
+  --cricket-amber-light: #ffc107;
+  --cricket-bg:          #f0f5f1;
+  --cricket-border:      rgba(26, 92, 56, 0.18);
+}
+
+/* ---- Base ---- */
+body {
+  background-color: var(--cricket-bg);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Navbar ---- */
+.cricket-navbar {
+  background: linear-gradient(135deg, var(--cricket-dark) 0%, var(--cricket-green) 100%);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+  padding: 0.65rem 1.5rem;
+}
+
+.cricket-navbar .navbar-brand {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--cricket-amber) !important;
+  letter-spacing: 0.5px;
+}
+
+.cricket-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-weight: 500;
+  padding: 6px 14px !important;
+  border-radius: 6px;
+  margin: 0 2px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cricket-navbar .nav-link:hover,
+.cricket-navbar .nav-link.active {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff !important;
+}
+
+/* ---- Page Header ---- */
+.page-header h2 {
+  color: var(--cricket-dark);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+/* ---- Dashboard Stat Cards ---- */
+.stat-card {
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
+}
+
+.stat-card .card-body {
+  padding: 1.5rem;
+}
+
+.stat-card .card-footer {
+  background: rgba(0, 0, 0, 0.18);
+  border: none;
+  padding: 0.75rem 1.5rem;
+}
+
+.stat-card .card-footer a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.stat-card .card-footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.team-card   { background: linear-gradient(135deg, #1a5c38, #2d8a57); }
+.player-card { background: linear-gradient(135deg, #1a3a5c, #2d5a8a); }
+.match-card  { background: linear-gradient(135deg, #5c3a1a, #8a5a2d); }
+
+.stat-icon { opacity: 0.82; }
+
+/* ---- Cards ---- */
+.card {
+  border: 1px solid var(--cricket-border);
+  border-radius: 12px;
+}
+
+.card-header {
+  border-radius: 12px 12px 0 0 !important;
+}
+
+/* Themed card header */
+.cricket-card-header {
+  background: linear-gradient(135deg, var(--cricket-dark), var(--cricket-green));
+  color: #fff;
+  border: none;
+  padding: 0.85rem 1.25rem;
+}
+
+/* ---- Tables ---- */
+.table thead.table-dark th {
+  background-color: var(--cricket-dark);
+  border-color: #264d36;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(26, 92, 56, 0.07);
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* ---- Buttons ---- */
+.btn-cricket {
+  background: linear-gradient(135deg, var(--cricket-green), var(--cricket-light-green));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 8px 22px;
+  transition: all 0.2s;
+}
+
+.btn-cricket:hover,
+.btn-cricket:focus {
+  background: linear-gradient(135deg, var(--cricket-dark), var(--cricket-green));
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(26, 92, 56, 0.35);
+}
+
+/* ---- Badges ---- */
+.match-type-badge { background-color: var(--cricket-green); color: #fff; }
+
+.badge-batsman   { background-color: #0d6efd; }
+.badge-bowler    { background-color: #dc3545; }
+.badge-allrounder{ background-color: #198754; }
+.badge-keeper    { background-color: #6f42c1; }
+
+/* ---- Forms ---- */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--cricket-light-green);
+  box-shadow: 0 0 0 0.2rem rgba(45, 138, 87, 0.25);
+}
+
+.form-label {
+  color: #2d3a35;
+}
+
+/* ---- Alerts ---- */
+.alert {
+  border-radius: 10px;
+  border: none;
+}
+
+/* ---- Footer ---- */
+.cricket-footer {
+  background: linear-gradient(135deg, var(--cricket-dark), var(--cricket-green));
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: auto;
+  font-size: 0.88rem;
+}
+
+/* ---- Empty state ---- */
+.empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.empty-state i {
+  color: #aac7b5;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  color: #6c757d;
+  margin-bottom: 1.25rem;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .stat-card .card-body { padding: 1rem; }
+  h2 { font-size: 1.5rem; }
+  .cricket-navbar { padding: 0.5rem 1rem; }
+}

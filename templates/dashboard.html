@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard — Cricket MS{% endblock %}
+
+{% block content %}
+
+<!-- Page heading -->
+<div class="page-header mb-4">
+  <h2><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h2>
+  <p class="text-muted">Welcome to the Cricket Management System</p>
+</div>
+
+<!-- ── Stat Cards (COUNT queries) ──────────────────────── -->
+<div class="row g-4 mb-5">
+
+  <!-- Total Teams -->
+  <div class="col-md-4">
+    <div class="card stat-card team-card shadow h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="stat-icon me-4">
+          <i class="fas fa-shield-alt fa-3x"></i>
+        </div>
+        <div>
+          <p class="card-subtitle mb-1 text-white-50 small fw-semibold">TOTAL TEAMS</p>
+          <h1 class="fw-bold mb-0">{{ total_teams }}</h1>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="{{ url_for('teams_list') }}">View all teams &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Players -->
+  <div class="col-md-4">
+    <div class="card stat-card player-card shadow h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="stat-icon me-4">
+          <i class="fas fa-user-friends fa-3x"></i>
+        </div>
+        <div>
+          <p class="card-subtitle mb-1 text-white-50 small fw-semibold">TOTAL PLAYERS</p>
+          <h1 class="fw-bold mb-0">{{ total_players }}</h1>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="{{ url_for('players_list') }}">View all players &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Matches -->
+  <div class="col-md-4">
+    <div class="card stat-card match-card shadow h-100">
+      <div class="card-body d-flex align-items-center">
+        <div class="stat-icon me-4">
+          <i class="fas fa-trophy fa-3x"></i>
+        </div>
+        <div>
+          <p class="card-subtitle mb-1 text-white-50 small fw-semibold">TOTAL MATCHES</p>
+          <h1 class="fw-bold mb-0">{{ total_matches }}</h1>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a href="{{ url_for('matches_list') }}">View all matches &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Recent Matches (JOIN result) ───────────────────── -->
+<div class="card shadow-sm">
+  <div class="card-header cricket-card-header d-flex justify-content-between align-items-center">
+    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Matches</h5>
+    <a href="{{ url_for('matches_add') }}" class="btn btn-sm btn-light fw-semibold">
+      <i class="fas fa-plus"></i> Add Match
+    </a>
+  </div>
+
+  <div class="card-body p-0">
+    {% if recent_matches %}
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th>Match</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Venue</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in recent_matches %}
+            <tr>
+              <td>
+                <strong>{{ m.team1 }}</strong>
+                <span class="text-muted mx-1">vs</span>
+                <strong>{{ m.team2 }}</strong>
+              </td>
+              <td>
+                <span class="badge match-type-badge">{{ m.match_type }}</span>
+              </td>
+              <td>{{ m.match_date }}</td>
+              <td>
+                <i class="fas fa-map-marker-alt text-muted me-1"></i>{{ m.venue }}
+              </td>
+              <td>
+                {% if m.winner %}
+                  <span class="badge bg-success">🏆 {{ m.winner }}</span>
+                {% else %}
+                  <span class="badge bg-secondary">No Result</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="empty-state">
+        <i class="fas fa-trophy fa-3x d-block mb-3"></i>
+        <p>No matches recorded yet.</p>
+        <a href="{{ url_for('matches_add') }}" class="btn btn-cricket">
+          <i class="fas fa-plus"></i> Add First Match
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- ── Quick Links ─────────────────────────────────────── -->
+<div class="row g-3 mt-2">
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('teams_add') }}" class="btn btn-cricket w-100">
+      <i class="fas fa-plus me-1"></i> Add Team
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('players_add') }}" class="btn btn-cricket w-100">
+      <i class="fas fa-plus me-1"></i> Add Player
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('matches_add') }}" class="btn btn-cricket w-100">
+      <i class="fas fa-plus me-1"></i> Add Match
+    </a>
+  </div>
+  <div class="col-6 col-md-3">
+    <a href="{{ url_for('statistics_add') }}" class="btn btn-cricket w-100">
+      <i class="fas fa-plus me-1"></i> Add Stats
+    </a>
+  </div>
+</div>
+
+{% endblock %}

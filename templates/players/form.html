@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% block title %}{{ action }} Player — Cricket MS{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+
+    <div class="d-flex align-items-center mb-4">
+      <a href="{{ url_for('players_list') }}" class="btn btn-outline-secondary me-3">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div>
+        <h2 class="mb-0">{{ action }} Player</h2>
+        <p class="text-muted mb-0">
+          {{ 'Register a new player and optionally assign a team' if action == 'Add'
+             else 'Update player details and team assignment' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header cricket-card-header">
+        <h5 class="mb-0"><i class="fas fa-user me-2"></i>Player Details</h5>
+      </div>
+
+      <div class="card-body">
+        <form method="POST" novalidate>
+
+          <!-- Player Name -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Player Name <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="player_name" class="form-control"
+                   placeholder="e.g. Virat Kohli"
+                   value="{{ player.player_name if player else '' }}"
+                   maxlength="100" required />
+          </div>
+
+          <!-- Role + Jersey -->
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">
+                Role <span class="text-danger">*</span>
+              </label>
+              <select name="role" class="form-select" required>
+                {% for r in ['Batsman', 'Bowler', 'All-Rounder', 'Wicket-Keeper'] %}
+                  <option value="{{ r }}"
+                          {% if player and player.role == r %}selected{% endif %}>
+                    {{ r }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label fw-semibold">
+                Jersey No. <span class="text-danger">*</span>
+              </label>
+              <input type="number" name="jersey_no" class="form-control"
+                     placeholder="e.g. 18" min="1" max="999"
+                     value="{{ player.jersey_no if player else '' }}" required />
+            </div>
+          </div>
+
+          <!-- Nationality -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Nationality <span class="text-danger">*</span>
+            </label>
+            <input type="text" name="nationality" class="form-control"
+                   placeholder="e.g. Indian"
+                   value="{{ player.nationality if player else '' }}"
+                   maxlength="50" required />
+          </div>
+
+          <!-- Team Assignment (FK dropdown) -->
+          <div class="mb-4">
+            <label class="form-label fw-semibold">Assign to Team</label>
+            <select name="team_id" class="form-select">
+              <option value="">— Unassigned —</option>
+              {% for t in teams %}
+                <option value="{{ t.team_id }}"
+                        {% if player and player.team_id == t.team_id %}selected{% endif %}>
+                  {{ t.team_name }}
+                </option>
+              {% endfor %}
+            </select>
+            <div class="form-text">
+              <i class="fas fa-info-circle me-1"></i>
+              Leave blank to keep the player unassigned.
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-cricket flex-grow-1">
+              <i class="fas fa-save me-1"></i> {{ action }} Player
+            </button>
+            <a href="{{ url_for('players_list') }}" class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

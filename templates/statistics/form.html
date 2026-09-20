@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}Add Statistics — Cricket MS{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+
+    <div class="d-flex align-items-center mb-4">
+      <a href="{{ url_for('statistics_index') }}" class="btn btn-outline-secondary me-3">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <div>
+        <h2 class="mb-0">Add Match Statistics</h2>
+        <p class="text-muted mb-0">
+          Record a player's performance for a specific match
+        </p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header cricket-card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-chart-bar me-2"></i>Performance Details
+        </h5>
+      </div>
+
+      <div class="card-body">
+        <form method="POST" novalidate>
+
+          <!-- Player -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Player <span class="text-danger">*</span>
+            </label>
+            <select name="player_id" class="form-select" required>
+              <option value="">— Select Player —</option>
+              {% for p in players %}
+                <option value="{{ p.player_id }}">{{ p.player_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Match -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">
+              Match <span class="text-danger">*</span>
+            </label>
+            <select name="match_id" class="form-select" required>
+              <option value="">— Select Match —</option>
+              {% for m in matches %}
+                <option value="{{ m.match_id }}">{{ m.match_label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Runs / Wickets / Catches -->
+          <div class="row">
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-semibold">
+                <i class="fas fa-baseball-ball me-1 text-warning"></i>Runs
+              </label>
+              <input type="number" name="runs" class="form-control"
+                     min="0" value="0" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-semibold">
+                <i class="fas fa-bowling-ball me-1 text-danger"></i>Wickets
+              </label>
+              <input type="number" name="wickets" class="form-control"
+                     min="0" value="0" />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label class="form-label fw-semibold">
+                <i class="fas fa-hands me-1 text-primary"></i>Catches
+              </label>
+              <input type="number" name="catches" class="form-control"
+                     min="0" value="0" />
+            </div>
+          </div>
+
+          <!-- Highest Score checkbox -->
+          <div class="mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                     name="is_highest_score" id="highestScore" />
+              <label class="form-check-label fw-semibold" for="highestScore">
+                ⭐ Mark as the highest individual score in this match
+              </label>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-cricket flex-grow-1">
+              <i class="fas fa-save me-1"></i> Save Statistics
+            </button>
+            <a href="{{ url_for('statistics_index') }}" class="btn btn-outline-secondary px-4">
+              Cancel
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
