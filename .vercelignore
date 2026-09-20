@@ -1,0 +1,18 @@
+# Environment and local credentials
+.env
+.env.local
+.env.*.local
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Git
+.git/
+.github/
+
+# Database initialization scripts (run directly on Oracle)
+init_db.py

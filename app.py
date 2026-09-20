@@ -18,8 +18,15 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 from db import get_connection, fetch_all, fetch_one
 import oracledb
 
-app = Flask(__name__)
-app.secret_key = "cricket_mgmt_secret_2024"
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
+app.secret_key = os.getenv("SECRET_KEY", "cricket_mgmt_secret_2024")
 
 
 # ==============================================================
