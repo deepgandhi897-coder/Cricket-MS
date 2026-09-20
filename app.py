@@ -34,6 +34,8 @@ app.secret_key = os.getenv("SECRET_KEY", "cricket_mgmt_secret_2024")
 # ==============================================================
 
 @app.route("/")
+@app.route("/api/index")
+@app.route("/api/index.py")
 def dashboard():
     conn = get_connection()
     cur = conn.cursor()
