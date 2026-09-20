@@ -704,3 +704,255 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 2.25rem;
   }
 }
+
+/* ============================================================
+   THEME TOGGLE SYSTEM & LIGHT MODE (Orchid Day)
+   ============================================================ */
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 0.9rem;
+  padding: 0;
+  line-height: 1;
+}
+
+.btn-theme-toggle:hover {
+  background: rgba(104, 51, 255, 0.15);
+  border-color: var(--border-orchid);
+  color: var(--orchid-vivid);
+  transform: rotate(20deg) scale(1.05);
+  box-shadow: 0 0 16px var(--orchid-glow);
+}
+
+.btn-theme-toggle .icon-sun {
+  display: block;
+  color: #fbbf24;
+}
+.btn-theme-toggle .icon-moon {
+  display: none;
+  color: #8b5cf6;
+}
+
+[data-theme="light"] .btn-theme-toggle .icon-sun {
+  display: none;
+}
+[data-theme="light"] .btn-theme-toggle .icon-moon {
+  display: block;
+}
+
+/* Light Mode Variables & Surface Overrides */
+[data-theme="light"] {
+  --bg-deep:            #f7f6fc;
+  --bg-surface:         #ffffff;
+  --bg-card:            rgba(255, 255, 255, 0.88);
+  --bg-card-hover:      #ffffff;
+  --bg-card-solid:      #ffffff;
+  --bg-glass:           rgba(104, 51, 255, 0.03);
+  --bg-glass-active:    rgba(104, 51, 255, 0.08);
+
+  --orchid-primary:     #6833ff;
+  --orchid-light:       #7c3aed;
+  --orchid-vivid:       #6833ff;
+  --orchid-pale:        #4c1d95;
+  --orchid-glow:        rgba(104, 51, 255, 0.18);
+  --orchid-glow-strong: rgba(104, 51, 255, 0.35);
+  --orchid-tint:        rgba(104, 51, 255, 0.07);
+
+  --text-pure:          #0e0a24;
+  --text-primary:       #1e1a34;
+  --text-secondary:     #4b4568;
+  --text-muted:         #6b7280;
+
+  --border-subtle:      rgba(0, 0, 0, 0.08);
+  --border-orchid:      rgba(104, 51, 255, 0.18);
+  --border-orchid-hover:rgba(104, 51, 255, 0.45);
+
+  --accent-cyan:        #0891b2;
+  --accent-emerald:     #059669;
+  --accent-amber:       #d97706;
+  --accent-rose:        #e11d48;
+}
+
+[data-theme="light"] body {
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 50% -15%, rgba(104, 51, 255, 0.1) 0%, rgba(247, 246, 252, 0) 60%),
+    radial-gradient(circle at 10% 30%, rgba(139, 92, 246, 0.05) 0%, rgba(247, 246, 252, 0) 45%),
+    radial-gradient(circle at 90% 70%, rgba(6, 182, 212, 0.05) 0%, rgba(247, 246, 252, 0) 45%),
+    radial-gradient(rgba(104, 51, 255, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .orchid-navbar {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(104, 51, 255, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), 0 0 20px rgba(104, 51, 255, 0.06);
+}
+
+[data-theme="light"] .orchid-nav-links .nav-link {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="light"] .orchid-nav-links .nav-link:hover {
+  color: var(--text-pure) !important;
+  background: rgba(104, 51, 255, 0.06);
+}
+
+[data-theme="light"] .orchid-nav-links .nav-link.active {
+  color: var(--orchid-primary) !important;
+  background: rgba(104, 51, 255, 0.08);
+  border-color: rgba(104, 51, 255, 0.2);
+}
+
+[data-theme="light"] .text-white {
+  color: var(--text-pure) !important;
+}
+
+[data-theme="light"] .navbar-toggler {
+  color: var(--text-pure) !important;
+}
+
+[data-theme="light"] .brand-icon-box .text-white,
+[data-theme="light"] .btn-orchid .text-white,
+[data-theme="light"] .btn-orchid {
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .orchid-card,
+[data-theme="light"] .card {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(104, 51, 255, 0.04);
+}
+
+[data-theme="light"] .orchid-card:hover,
+[data-theme="light"] .card:hover {
+  border-color: rgba(104, 51, 255, 0.35);
+  box-shadow: 0 16px 40px rgba(104, 51, 255, 0.09);
+}
+
+[data-theme="light"] .orchid-card-header,
+[data-theme="light"] .card-header {
+  background: rgba(104, 51, 255, 0.02);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .orchid-kpi-card {
+  background: linear-gradient(145deg, #ffffff, #faf9fe);
+  border-color: rgba(104, 51, 255, 0.14);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .orchid-kpi-card:hover {
+  box-shadow: 0 18px 45px rgba(104, 51, 255, 0.12);
+  border-color: rgba(104, 51, 255, 0.35);
+}
+
+[data-theme="light"] .kpi-number {
+  color: var(--text-pure) !important;
+}
+
+[data-theme="light"] .gradient-title {
+  background: linear-gradient(135deg, #0e0a24 35%, #6833ff 95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .orchid-table-container {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .table thead th {
+  background: rgba(104, 51, 255, 0.03) !important;
+  color: var(--text-secondary);
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .table tbody td {
+  color: var(--text-primary);
+  border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .table-hover tbody tr:hover td {
+  background: rgba(104, 51, 255, 0.04) !important;
+}
+
+[data-theme="light"] .badge-team-pill {
+  background: rgba(104, 51, 255, 0.06);
+  color: #3b0764;
+  border-color: rgba(104, 51, 255, 0.14);
+}
+
+[data-theme="light"] .form-control,
+[data-theme="light"] .form-select {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  color: #0f0a24 !important;
+}
+
+[data-theme="light"] .form-control::placeholder {
+  color: rgba(0, 0, 0, 0.35) !important;
+}
+
+[data-theme="light"] .form-control:focus,
+[data-theme="light"] .form-select:focus {
+  background-color: #ffffff !important;
+  border-color: var(--orchid-primary) !important;
+  box-shadow: 0 0 0 3px rgba(104, 51, 255, 0.15) !important;
+}
+
+[data-theme="light"] .form-select option {
+  background-color: #ffffff !important;
+  color: #0f0a24 !important;
+}
+
+[data-theme="light"] .btn-orchid-outline {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .btn-orchid-outline:hover {
+  background: rgba(104, 51, 255, 0.06);
+  border-color: var(--border-orchid);
+  color: var(--orchid-primary);
+}
+
+[data-theme="light"] .btn-action-icon {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #4b5563;
+}
+
+[data-theme="light"] .btn-action-icon:hover {
+  background: rgba(104, 51, 255, 0.1);
+  color: var(--orchid-primary);
+}
+
+[data-theme="light"] .orchid-code-box {
+  background: #0f0a20;
+  border-color: rgba(104, 51, 255, 0.25);
+  box-shadow: 0 8px 30px rgba(104, 51, 255, 0.08);
+}
+
+[data-theme="light"] .orchid-footer {
+  background: #ffffff;
+  border-top-color: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .btn-close-white {
+  filter: invert(1) grayscale(100%) brightness(20%) !important;
+}

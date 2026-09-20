@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}Cricket MS — Identity & Analytics Platform{% endblock %}</title>
+
+  <!-- Theme initialization (prevents FOUC) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('cricketms-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
 
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,8 +49,8 @@
             </span>
           </div>
 
-          <!-- Toggler -->
-          <button class="navbar-toggler border-0 text-white" type="button"
+          <!-- Toggler for Mobile -->
+          <button class="navbar-toggler border-0 text-white ms-auto me-2" type="button"
                   data-bs-toggle="collapse" data-bs-target="#navMenu"
                   aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i>
@@ -91,6 +99,15 @@
                 <a href="{{ url_for('matches_add') }}" class="btn-orchid btn-sm">
                   <i class="fas fa-plus"></i> New Match
                 </a>
+              </li>
+
+              <!-- Theme Toggle Button -->
+              <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                <button id="themeToggleBtn" class="btn-theme-toggle" type="button"
+                        aria-label="Toggle Light / Dark Mode" title="Toggle Light / Dark Mode">
+                  <i class="fas fa-sun icon-sun"></i>
+                  <i class="fas fa-moon icon-moon"></i>
+                </button>
               </li>
 
             </ul>
@@ -154,6 +171,22 @@
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Theme Toggle Client Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('themeToggleBtn');
+      if (btn) {
+        btn.addEventListener('click', function() {
+          var current = document.documentElement.getAttribute('data-theme') || 'dark';
+          var next = (current === 'light') ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', next);
+          localStorage.setItem('cricketms-theme', next);
+        });
+      }
+    });
+  </script>
+
   {% block scripts %}{% endblock %}
 </body>
 </html>
