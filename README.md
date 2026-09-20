@@ -126,3 +126,24 @@ Open your browser and navigate to:
 ```
 http://127.0.0.1:5000
 ```
+
+---
+
+## ⚡ Deploy to Vercel
+
+1. **Push your code to GitHub**:
+   ```bash
+   git push
+   ```
+2. **Import Project into Vercel**:
+   - Go to [vercel.com](https://vercel.com) and log in with your GitHub account.
+   - Click **Add New...** → **Project**.
+   - Select the `Cricket-MS` repository.
+3. **Configure Environment Variables in Vercel**:
+   Under the **Environment Variables** section in Vercel, add:
+   - `ORACLE_USER` = `your_oracle_username`
+   - `ORACLE_PASSWORD` = `your_oracle_password`
+   - `ORACLE_DSN` = `tcps://db.freesql.com:2484/your_service_name`
+4. **Deploy**:
+   - Click **Deploy**. Vercel will build the serverless functions and provide your live production URL (e.g. `https://cricket-ms.vercel.app`).
+
