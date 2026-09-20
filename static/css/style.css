@@ -1,212 +1,706 @@
 /* ============================================================
-   Cricket Management System — Custom Stylesheet
-   Theme: Cricket Green + Amber Gold
-   Bootstrap 5 companion styles
+   Cricket Management System — Orchid Security Design System
+   Inspired by Orchid Security (Awwwards Nominee)
+   Aesthetic: Atmospheric Dark, Glassmorphism, Electric Orchid & Violet,
+              High-Precision Neo-Grotesque Typography, Glowing Accents
    ============================================================ */
 
 :root {
-  --cricket-green:       #1a5c38;
-  --cricket-light-green: #2d8a57;
-  --cricket-dark:        #0d2818;
-  --cricket-amber:       #f0a500;
-  --cricket-amber-light: #ffc107;
-  --cricket-bg:          #f0f5f1;
-  --cricket-border:      rgba(26, 92, 56, 0.18);
+  /* Core Backgrounds */
+  --bg-deep:            #07060b;
+  --bg-surface:         #0e0c18;
+  --bg-card:            rgba(18, 15, 30, 0.72);
+  --bg-card-hover:      rgba(26, 21, 44, 0.85);
+  --bg-card-solid:      #120f1e;
+  --bg-glass:           rgba(255, 255, 255, 0.03);
+  --bg-glass-active:    rgba(255, 255, 255, 0.08);
+
+  /* Orchid & Violet Accents */
+  --orchid-primary:     #6833ff;
+  --orchid-light:       #8b5cf6;
+  --orchid-vivid:       #ac91ff;
+  --orchid-pale:        #c4b5fd;
+  --orchid-glow:        rgba(104, 51, 255, 0.35);
+  --orchid-glow-strong: rgba(104, 51, 255, 0.65);
+  --orchid-tint:        rgba(104, 51, 255, 0.12);
+
+  /* Text Colors */
+  --text-pure:          #ffffff;
+  --text-primary:       #f4f4f5;
+  --text-secondary:     #a1a1aa;
+  --text-muted:         #71717a;
+
+  /* Borders */
+  --border-subtle:      rgba(255, 255, 255, 0.07);
+  --border-orchid:      rgba(139, 92, 246, 0.22);
+  --border-orchid-hover:rgba(172, 145, 255, 0.55);
+
+  /* Semantic Accents */
+  --accent-cyan:        #06b6d4;
+  --accent-emerald:     #10b981;
+  --accent-amber:       #f59e0b;
+  --accent-rose:        #f43f5e;
 }
 
-/* ---- Base ---- */
+/* ---- Reset & Body ---- */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: var(--cricket-bg);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 50% -15%, rgba(104, 51, 255, 0.25) 0%, rgba(7, 6, 11, 0) 55%),
+    radial-gradient(circle at 10% 30%, rgba(139, 92, 246, 0.08) 0%, rgba(7, 6, 11, 0) 40%),
+    radial-gradient(circle at 90% 70%, rgba(6, 182, 212, 0.06) 0%, rgba(7, 6, 11, 0) 40%),
+    radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 28px 28px;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Navbar ---- */
-.cricket-navbar {
-  background: linear-gradient(135deg, var(--cricket-dark) 0%, var(--cricket-green) 100%);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
-  padding: 0.65rem 1.5rem;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
 }
 
-.cricket-navbar .navbar-brand {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--cricket-amber) !important;
-  letter-spacing: 0.5px;
+/* ---- Navigation (Orchid Floating Glass Bar) ---- */
+.orchid-nav-wrapper {
+  padding-top: 1.25rem;
+  padding-bottom: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.cricket-navbar .nav-link {
-  color: rgba(255, 255, 255, 0.85) !important;
-  font-weight: 500;
-  padding: 6px 14px !important;
-  border-radius: 6px;
-  margin: 0 2px;
-  transition: background 0.2s, color 0.2s;
+.orchid-navbar {
+  background: rgba(14, 12, 24, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-orchid);
+  border-radius: 9999px;
+  padding: 0.6rem 1.4rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(104, 51, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cricket-navbar .nav-link:hover,
-.cricket-navbar .nav-link.active {
-  background: rgba(255, 255, 255, 0.18);
-  color: #fff !important;
+.orchid-navbar:hover {
+  border-color: rgba(172, 145, 255, 0.35);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 30px rgba(104, 51, 255, 0.2);
 }
 
-/* ---- Page Header ---- */
-.page-header h2 {
-  color: var(--cricket-dark);
+.orchid-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   font-weight: 700;
-  margin-bottom: 4px;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: var(--text-pure) !important;
+  text-decoration: none;
 }
 
-/* ---- Dashboard Stat Cards ---- */
-.stat-card {
-  border: none;
-  border-radius: 14px;
-  color: #fff;
+.brand-icon-box {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--orchid-primary), var(--orchid-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 14px var(--orchid-glow);
+  font-size: 0.95rem;
+}
+
+.orchid-nav-links .nav-link {
+  color: var(--text-secondary) !important;
+  font-size: 0.88rem;
+  font-weight: 500;
+  padding: 0.45rem 1rem !important;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.orchid-nav-links .nav-link:hover {
+  color: var(--text-pure) !important;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.orchid-nav-links .nav-link.active {
+  color: var(--text-pure) !important;
+  background: var(--orchid-tint);
+  border: 1px solid var(--border-orchid);
+  box-shadow: 0 0 12px rgba(104, 51, 255, 0.2);
+}
+
+/* Live Database Status Indicator */
+.db-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #34d399;
+  letter-spacing: 0.02em;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  position: relative;
+}
+
+.status-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid #10b981;
+  animation: pulseDot 2s infinite ease-out;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* ---- Typography & Headings ---- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-pure);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.95rem;
+  background: rgba(104, 51, 255, 0.12);
+  border: 1px solid var(--border-orchid);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orchid-pale);
+  margin-bottom: 1rem;
+}
+
+.gradient-title {
+  background: linear-gradient(135deg, #ffffff 40%, var(--orchid-vivid) 95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---- Cards (Orchid Glass Style) ---- */
+.card, .orchid-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
+.card:hover, .orchid-card:hover {
+  border-color: var(--border-orchid-hover);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--orchid-glow);
+  transform: translateY(-2px);
 }
 
-.stat-card .card-body {
+.card-header, .orchid-card-header {
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1.1rem 1.5rem;
+  border-radius: 20px 20px 0 0 !important;
+}
+
+.card-body {
   padding: 1.5rem;
 }
 
-.stat-card .card-footer {
-  background: rgba(0, 0, 0, 0.18);
-  border: none;
-  padding: 0.75rem 1.5rem;
+/* ---- KPI Stat Cards ---- */
+.orchid-kpi-card {
+  background: linear-gradient(145deg, rgba(22, 18, 38, 0.8), rgba(12, 10, 22, 0.8));
+  border: 1px solid var(--border-orchid);
+  border-radius: 20px;
+  padding: 1.6rem 1.6rem 1.3rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
 }
 
-.stat-card .card-footer a {
-  color: rgba(255, 255, 255, 0.85);
+.orchid-kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--orchid-primary), transparent);
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.orchid-kpi-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(172, 145, 255, 0.45);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7), 0 0 25px var(--orchid-glow);
+}
+
+.orchid-kpi-card:hover::before {
+  opacity: 1;
+}
+
+.kpi-icon-glow {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 1.25rem;
+}
+
+.icon-purple {
+  background: rgba(104, 51, 255, 0.18);
+  color: var(--orchid-vivid);
+  box-shadow: 0 0 20px rgba(104, 51, 255, 0.25);
+}
+
+.icon-cyan {
+  background: rgba(6, 182, 212, 0.18);
+  color: #67e8f9;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
+}
+
+.icon-emerald {
+  background: rgba(16, 185, 129, 0.18);
+  color: #6ee7b7;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);
+}
+
+.kpi-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+}
+
+.kpi-number {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.8rem;
+}
+
+.kpi-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--orchid-vivid);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-.stat-card .card-footer a:hover {
-  color: #fff;
-  text-decoration: underline;
-}
-
-.team-card   { background: linear-gradient(135deg, #1a5c38, #2d8a57); }
-.player-card { background: linear-gradient(135deg, #1a3a5c, #2d5a8a); }
-.match-card  { background: linear-gradient(135deg, #5c3a1a, #8a5a2d); }
-
-.stat-icon { opacity: 0.82; }
-
-/* ---- Cards ---- */
-.card {
-  border: 1px solid var(--cricket-border);
-  border-radius: 12px;
-}
-
-.card-header {
-  border-radius: 12px 12px 0 0 !important;
-}
-
-/* Themed card header */
-.cricket-card-header {
-  background: linear-gradient(135deg, var(--cricket-dark), var(--cricket-green));
-  color: #fff;
-  border: none;
-  padding: 0.85rem 1.25rem;
-}
-
-/* ---- Tables ---- */
-.table thead.table-dark th {
-  background-color: var(--cricket-dark);
-  border-color: #264d36;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-}
-
-.table-hover tbody tr:hover {
-  background-color: rgba(26, 92, 56, 0.07);
-}
-
-.table td,
-.table th {
-  vertical-align: middle;
-}
-
-/* ---- Buttons ---- */
-.btn-cricket {
-  background: linear-gradient(135deg, var(--cricket-green), var(--cricket-light-green));
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  padding: 8px 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   transition: all 0.2s;
 }
 
-.btn-cricket:hover,
-.btn-cricket:focus {
-  background: linear-gradient(135deg, var(--cricket-dark), var(--cricket-green));
-  color: #fff;
+.kpi-link:hover {
+  color: var(--text-pure);
+  transform: translateX(4px);
+}
+
+/* ---- Tables ---- */
+.orchid-table-container {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: rgba(14, 12, 24, 0.6);
+}
+
+.table {
+  color: var(--text-primary);
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: transparent !important;
+}
+
+.table thead th {
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  background: transparent !important;
+  color: var(--text-primary);
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+  font-size: 0.9rem;
+  transition: background 0.15s ease;
+}
+
+.table-hover tbody tr:hover td {
+  background: rgba(104, 51, 255, 0.08) !important;
+  color: var(--text-pure);
+}
+
+/* ---- Buttons (Orchid Glow System) ---- */
+.btn-orchid {
+  background: linear-gradient(135deg, var(--orchid-primary) 0%, #7c3aed 100%);
+  color: var(--text-pure);
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 4px 18px rgba(104, 51, 255, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-orchid:hover, .btn-orchid:focus {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  color: var(--text-pure);
+  box-shadow: 0 6px 26px rgba(104, 51, 255, 0.75);
+  transform: translateY(-2px);
+}
+
+.btn-orchid-outline {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 9999px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  padding: 0.55rem 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-orchid-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-orchid);
+  color: var(--text-pure);
   transform: translateY(-1px);
-  box-shadow: 0 5px 14px rgba(26, 92, 56, 0.35);
+}
+
+.btn-action-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.btn-action-icon:hover {
+  background: rgba(139, 92, 246, 0.2);
+  border-color: var(--border-orchid);
+  color: var(--text-pure);
+}
+
+.btn-action-delete:hover {
+  background: rgba(244, 63, 94, 0.2);
+  border-color: rgba(244, 63, 94, 0.5);
+  color: #fb7185;
 }
 
 /* ---- Badges ---- */
-.match-type-badge { background-color: var(--cricket-green); color: #fff; }
-
-.badge-batsman   { background-color: #0d6efd; }
-.badge-bowler    { background-color: #dc3545; }
-.badge-allrounder{ background-color: #198754; }
-.badge-keeper    { background-color: #6f42c1; }
-
-/* ---- Forms ---- */
-.form-control:focus,
-.form-select:focus {
-  border-color: var(--cricket-light-green);
-  box-shadow: 0 0 0 0.2rem rgba(45, 138, 87, 0.25);
+.orchid-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
+.badge-batsman {
+  background: rgba(6, 182, 212, 0.14);
+  color: #67e8f9;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.badge-bowler {
+  background: rgba(244, 63, 94, 0.14);
+  color: #fda4af;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+}
+
+.badge-allrounder {
+  background: rgba(16, 185, 129, 0.14);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-keeper {
+  background: rgba(168, 85, 247, 0.14);
+  color: #d8b4fe;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.badge-winner {
+  background: rgba(245, 158, 11, 0.14);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-match-format {
+  background: rgba(104, 51, 255, 0.16);
+  color: var(--orchid-pale);
+  border: 1px solid var(--border-orchid);
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-team-pill {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* ---- Forms & Inputs ---- */
 .form-label {
-  color: #2d3a35;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-pure) !important;
+  border-radius: 12px !important;
+  padding: 0.75rem 1rem !important;
+  font-size: 0.92rem !important;
+  transition: all 0.25s ease !important;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.25) !important;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  border-color: var(--orchid-light) !important;
+  box-shadow: 0 0 0 3px rgba(104, 51, 255, 0.25) !important;
+  outline: none !important;
+}
+
+.form-select option {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-pure) !important;
+}
+
+.form-check-input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 1.25em;
+  height: 1.25em;
+  border-radius: 6px;
+}
+
+.form-check-input:checked {
+  background-color: var(--orchid-primary);
+  border-color: var(--orchid-primary);
+  box-shadow: 0 0 10px var(--orchid-glow);
+}
+
+.form-text {
+  color: var(--text-muted) !important;
+  font-size: 0.78rem;
+  margin-top: 0.4rem;
 }
 
 /* ---- Alerts ---- */
 .alert {
-  border-radius: 10px;
-  border: none;
+  background: rgba(18, 15, 30, 0.85);
+  backdrop-filter: blur(16px);
+  border-radius: 14px;
+  border: 1px solid;
+  color: var(--text-primary);
+  padding: 0.9rem 1.25rem;
+}
+
+.alert-success {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.1);
+  color: #a7f3d0;
+}
+
+.alert-danger {
+  border-color: rgba(244, 63, 94, 0.3);
+  background: rgba(244, 63, 94, 0.1);
+  color: #fecdd3;
+}
+
+/* ---- Code Snippet Box (Viva Ready) ---- */
+.orchid-code-box {
+  background: #090812;
+  border: 1px solid var(--border-orchid);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.orchid-code-header {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.code-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #f59e0b; }
+.dot-green { background: #10b981; }
+
+.orchid-code-content {
+  padding: 1.25rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #c4b5fd;
+  margin-bottom: 0;
+  overflow-x: auto;
 }
 
 /* ---- Footer ---- */
-.cricket-footer {
-  background: linear-gradient(135deg, var(--cricket-dark), var(--cricket-green));
-  color: rgba(255, 255, 255, 0.8);
+.orchid-footer {
+  background: rgba(10, 8, 18, 0.85);
+  border-top: 1px solid var(--border-subtle);
   margin-top: auto;
-  font-size: 0.88rem;
+  padding: 1.75rem 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 
-/* ---- Empty state ---- */
+.orchid-footer a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.orchid-footer a:hover {
+  color: var(--orchid-vivid);
+}
+
+/* ---- Empty States ---- */
 .empty-state {
-  padding: 3rem 1rem;
+  padding: 4rem 2rem;
   text-align: center;
 }
 
-.empty-state i {
-  color: #aac7b5;
-  margin-bottom: 1rem;
+.empty-state-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  background: rgba(104, 51, 255, 0.1);
+  border: 1px solid var(--border-orchid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--orchid-vivid);
+  font-size: 1.75rem;
 }
 
-.empty-state p {
-  color: #6c757d;
-  margin-bottom: 1.25rem;
-}
-
-/* ---- Responsive ---- */
-@media (max-width: 768px) {
-  .stat-card .card-body { padding: 1rem; }
-  h2 { font-size: 1.5rem; }
-  .cricket-navbar { padding: 0.5rem 1rem; }
+/* ---- Responsive adjustments ---- */
+@media (max-width: 991px) {
+  .orchid-navbar {
+    border-radius: 20px;
+    padding: 0.75rem 1rem;
+  }
+  .orchid-nav-links {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .orchid-nav-links .nav-link {
+    padding: 0.6rem 0.8rem !important;
+  }
+  .kpi-number {
+    font-size: 2.25rem;
+  }
 }

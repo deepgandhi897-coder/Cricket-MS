@@ -1,101 +1,108 @@
 {% extends 'base.html' %}
-{% block title %}Add Statistics — Cricket MS{% endblock %}
+{% block title %}Ingest Performance Telemetry — CricketMS{% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center">
   <div class="col-lg-7">
 
-    <div class="d-flex align-items-center mb-4">
-      <a href="{{ url_for('statistics_index') }}" class="btn btn-outline-secondary me-3">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('statistics_index') }}" class="btn-orchid-outline p-2 px-3">
         <i class="fas fa-arrow-left"></i>
       </a>
       <div>
-        <h2 class="mb-0">Add Match Statistics</h2>
-        <p class="text-muted mb-0">
-          Record a player's performance for a specific match
-        </p>
+        <div class="hero-tag mb-1">DATA INGESTION</div>
+        <h2 class="mb-0 fw-bold">Ingest <span class="gradient-title">Match Statistics</span></h2>
       </div>
     </div>
 
-    <div class="card shadow-sm">
-      <div class="card-header cricket-card-header">
-        <h5 class="mb-0">
-          <i class="fas fa-chart-bar me-2"></i>Performance Details
-        </h5>
+    <div class="orchid-card">
+      <div class="orchid-card-header">
+        <div class="d-flex align-items-center gap-2">
+          <div class="brand-icon-box" style="width: 28px; height: 28px; font-size: 0.8rem;">
+            <i class="fas fa-wave-square text-white"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 text-white fw-semibold">Oracle Schema: PLAYER_STATISTICS</h6>
+            <div class="text-muted small">Foreign keys: PLAYER_ID (PLAYERS), MATCH_ID (MATCHES)</div>
+          </div>
+        </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body p-4">
         <form method="POST" novalidate>
 
-          <!-- Player -->
+          <!-- Player Selection -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Player <span class="text-danger">*</span>
+            <label class="form-label">
+              Athlete / Player <span class="text-danger">*</span>
             </label>
             <select name="player_id" class="form-select" required>
-              <option value="">— Select Player —</option>
+              <option value="">— Select Target Athlete —</option>
               {% for p in players %}
                 <option value="{{ p.player_id }}">{{ p.player_name }}</option>
               {% endfor %}
             </select>
           </div>
 
-          <!-- Match -->
+          <!-- Match Event Selection -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Match <span class="text-danger">*</span>
+            <label class="form-label">
+              Match Fixture Event <span class="text-danger">*</span>
             </label>
             <select name="match_id" class="form-select" required>
-              <option value="">— Select Match —</option>
+              <option value="">— Select Recorded Match —</option>
               {% for m in matches %}
                 <option value="{{ m.match_id }}">{{ m.match_label }}</option>
               {% endfor %}
             </select>
           </div>
 
-          <!-- Runs / Wickets / Catches -->
+          <!-- Metrics Row: Runs, Wickets, Catches -->
           <div class="row">
             <div class="col-md-4 mb-3">
-              <label class="form-label fw-semibold">
-                <i class="fas fa-baseball-ball me-1 text-warning"></i>Runs
+              <label class="form-label">
+                <i class="fas fa-baseball-bat-ball text-orchid me-1"></i> Runs Scored
               </label>
               <input type="number" name="runs" class="form-control"
                      min="0" value="0" />
+              <div class="form-text">CHECK (RUNS >= 0)</div>
             </div>
             <div class="col-md-4 mb-3">
-              <label class="form-label fw-semibold">
-                <i class="fas fa-bowling-ball me-1 text-danger"></i>Wickets
+              <label class="form-label">
+                <i class="fas fa-bowling-ball text-rose me-1"></i> Wickets Taken
               </label>
               <input type="number" name="wickets" class="form-control"
                      min="0" value="0" />
+              <div class="form-text">CHECK (WICKETS >= 0)</div>
             </div>
             <div class="col-md-4 mb-3">
-              <label class="form-label fw-semibold">
-                <i class="fas fa-hands me-1 text-primary"></i>Catches
+              <label class="form-label">
+                <i class="fas fa-hands text-cyan me-1"></i> Catches Claimed
               </label>
               <input type="number" name="catches" class="form-control"
                      min="0" value="0" />
+              <div class="form-text">CHECK (CATCHES >= 0)</div>
             </div>
           </div>
 
-          <!-- Highest Score checkbox -->
+          <!-- Highest Score Flag -->
           <div class="mb-4">
             <div class="form-check">
               <input class="form-check-input" type="checkbox"
                      name="is_highest_score" id="highestScore" />
-              <label class="form-check-label fw-semibold" for="highestScore">
-                ⭐ Mark as the highest individual score in this match
+              <label class="form-check-label text-white small" for="highestScore">
+                ⭐ Mark as Highest Individual Innings Score for this match
               </label>
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-cricket flex-grow-1">
-              <i class="fas fa-save me-1"></i> Save Statistics
+          <div class="d-flex gap-2 pt-2 border-top" style="border-color: var(--border-subtle) !important;">
+            <button type="submit" class="btn-orchid flex-grow-1 justify-content-center py-2">
+              <i class="fas fa-check-circle me-1"></i> Commit Telemetry
             </button>
-            <a href="{{ url_for('statistics_index') }}" class="btn btn-outline-secondary px-4">
+            <a href="{{ url_for('statistics_index') }}" class="btn-orchid-outline px-4">
               Cancel
             </a>
           </div>

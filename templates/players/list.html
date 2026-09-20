@@ -1,65 +1,72 @@
 {% extends 'base.html' %}
-{% block title %}Players — Cricket MS{% endblock %}
+{% block title %}Athletes & Rosters — CricketMS{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div class="page-header mb-0">
-    <h2><i class="fas fa-user-friends me-2"></i>Players</h2>
-    <p class="text-muted mb-0">Manage players and team assignments</p>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <div class="hero-tag mb-2">
+      <i class="fas fa-user-astronaut me-1 text-cyan"></i> Player Identity Registry
+    </div>
+    <h2 class="mb-1 fw-bold">Athletes & <span class="gradient-title">Squad Members</span></h2>
+    <p class="text-secondary small mb-0">Managed relational entity in Oracle table <code>PLAYERS</code> with Foreign Key references to <code>TEAMS</code>.</p>
   </div>
-  <a href="{{ url_for('players_add') }}" class="btn btn-cricket">
-    <i class="fas fa-plus me-1"></i> Add Player
+  <a href="{{ url_for('players_add') }}" class="btn-orchid">
+    <i class="fas fa-plus"></i> Enlist Player
   </a>
 </div>
 
-<!-- Filter bar -->
-<div class="card shadow-sm mb-3">
-  <div class="card-body py-2 px-3">
+<!-- ── Glass Filter Bar ───────────────────────────────── -->
+<div class="orchid-card mb-4">
+  <div class="p-3">
     <form method="GET" class="d-flex align-items-center gap-3 flex-wrap">
-      <span class="fw-semibold text-muted small">
-        <i class="fas fa-filter me-1"></i>Filter by Team:
-      </span>
-      <select name="team_id" class="form-select form-select-sm w-auto"
-              onchange="this.form.submit()">
-        <option value="">All Teams</option>
-        {% for t in teams %}
-          <option value="{{ t.team_id }}"
-                  {% if selected_team == t.team_id | string %}selected{% endif %}>
-            {{ t.team_name }}
-          </option>
-        {% endfor %}
-      </select>
+      <div class="d-flex align-items-center text-secondary small fw-semibold">
+        <i class="fas fa-filter text-orchid me-2"></i> FILTER BY FRANCHISE:
+      </div>
+      <div class="flex-grow-1" style="max-width: 320px;">
+        <select name="team_id" class="form-select form-select-sm" onchange="this.form.submit()">
+          <option value="">All Teams (Full Cohort)</option>
+          {% for t in teams %}
+            <option value="{{ t.team_id }}"
+                    {% if selected_team == t.team_id | string %}selected{% endif %}>
+              {{ t.team_name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
       {% if selected_team %}
-        <a href="{{ url_for('players_list') }}" class="btn btn-sm btn-outline-secondary">
-          <i class="fas fa-times me-1"></i>Clear
+        <a href="{{ url_for('players_list') }}" class="btn-orchid-outline btn-sm py-1">
+          <i class="fas fa-times me-1"></i> Reset Filter
         </a>
       {% endif %}
     </form>
   </div>
 </div>
 
-<!-- Players table -->
-<div class="card shadow-sm">
-  <div class="card-header cricket-card-header">
-    <h5 class="mb-0">Players
-      <span class="badge bg-light text-dark ms-2">{{ players | length }}</span>
-    </h5>
+<!-- ── Players Table ──────────────────────────────────── -->
+<div class="orchid-card">
+  <div class="orchid-card-header d-flex justify-content-between align-items-center">
+    <span class="text-secondary small fw-semibold text-uppercase">
+      Squad Roster
+    </span>
+    <span class="orchid-badge" style="background: rgba(6, 182, 212, 0.12); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3);">
+      {{ players | length }} Athletes
+    </span>
   </div>
 
-  <div class="card-body p-0">
+  <div class="p-0">
     {% if players %}
       <div class="table-responsive">
-        <table class="table table-hover mb-0">
-          <thead class="table-dark">
+        <table class="table table-hover">
+          <thead>
             <tr>
               <th>#</th>
               <th>Player Name</th>
-              <th>Role</th>
+              <th>Designation / Role</th>
               <th>Jersey</th>
               <th>Nationality</th>
-              <th>Team</th>
-              <th class="text-center">Actions</th>
+              <th>Assigned Franchise</th>
+              <th class="text-end">Operations</th>
             </tr>
           </thead>
           <tbody>
@@ -71,35 +78,50 @@
             } %}
             {% for p in players %}
             <tr>
-              <td class="text-muted">{{ loop.index }}</td>
-              <td><strong>{{ p.player_name }}</strong></td>
+              <td class="text-muted small">{{ loop.index }}</td>
               <td>
-                <span class="badge {{ role_classes.get(p.role, 'bg-secondary') }}">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="brand-icon-box" style="width: 28px; height: 28px; font-size: 0.75rem; border-radius: 8px; background: rgba(255,255,255,0.06); box-shadow: none;">
+                    <i class="fas fa-user text-secondary"></i>
+                  </div>
+                  <strong class="text-white">{{ p.player_name }}</strong>
+                </div>
+              </td>
+              <td>
+                <span class="orchid-badge {{ role_classes.get(p.role, 'badge-allrounder') }}">
                   {{ p.role }}
                 </span>
               </td>
-              <td class="text-muted">#{{ p.jersey_no }}</td>
-              <td>{{ p.nationality }}</td>
+              <td>
+                <span class="badge-team-pill">#{{ p.jersey_no }}</span>
+              </td>
+              <td class="text-secondary">{{ p.nationality }}</td>
               <td>
                 {% if p.team_name %}
-                  <span class="badge bg-success">{{ p.team_name }}</span>
+                  <span class="orchid-badge" style="background: rgba(104, 51, 255, 0.12); color: var(--orchid-pale); border: 1px solid var(--border-orchid);">
+                    {{ p.team_name }}
+                  </span>
                 {% else %}
-                  <span class="badge bg-warning text-dark">Unassigned</span>
+                  <span class="orchid-badge" style="background: rgba(245, 158, 11, 0.12); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.3);">
+                    Unassigned (NULL)
+                  </span>
                 {% endif %}
               </td>
-              <td class="text-center">
-                <a href="{{ url_for('players_edit', player_id=p.player_id) }}"
-                   class="btn btn-sm btn-outline-primary me-1">
-                  <i class="fas fa-edit"></i> Edit
-                </a>
-                <form method="POST"
-                      action="{{ url_for('players_delete', player_id=p.player_id) }}"
-                      class="d-inline"
-                      onsubmit="return confirm('Delete player \'{{ p.player_name }}\'?');">
-                  <button type="submit" class="btn btn-sm btn-outline-danger">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
+              <td class="text-end">
+                <div class="d-inline-flex gap-1">
+                  <a href="{{ url_for('players_edit', player_id=p.player_id) }}"
+                     class="btn-action-icon" title="Edit Player">
+                    <i class="fas fa-pen-to-square small"></i>
+                  </a>
+                  <form method="POST"
+                        action="{{ url_for('players_delete', player_id=p.player_id) }}"
+                        class="d-inline"
+                        onsubmit="return confirm('Delete player \'{{ p.player_name }}\'? Related stats will be purged.');">
+                    <button type="submit" class="btn-action-icon btn-action-delete" title="Delete Player">
+                      <i class="fas fa-trash small"></i>
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
             {% endfor %}
@@ -108,10 +130,13 @@
       </div>
     {% else %}
       <div class="empty-state">
-        <i class="fas fa-user-slash fa-3x d-block mb-3"></i>
-        <p>No players found{% if selected_team %} for this team{% endif %}.</p>
-        <a href="{{ url_for('players_add') }}" class="btn btn-cricket">
-          <i class="fas fa-plus me-1"></i> Add Player
+        <div class="empty-state-icon">
+          <i class="fas fa-user-slash"></i>
+        </div>
+        <h6 class="text-white mb-1">No athletes found</h6>
+        <p class="text-muted small mb-3">No player matches the active filter criteria.</p>
+        <a href="{{ url_for('players_add') }}" class="btn-orchid">
+          <i class="fas fa-plus"></i> Enlist Player
         </a>
       </div>
     {% endif %}

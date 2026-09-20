@@ -1,49 +1,53 @@
 {% extends 'base.html' %}
-{% block title %}{{ action }} Team — Cricket MS{% endblock %}
+{% block title %}{{ action }} Franchise — CricketMS{% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center">
   <div class="col-lg-7">
 
-    <!-- Breadcrumb header -->
-    <div class="d-flex align-items-center mb-4">
-      <a href="{{ url_for('teams_list') }}" class="btn btn-outline-secondary me-3">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('teams_list') }}" class="btn-orchid-outline p-2 px-3">
         <i class="fas fa-arrow-left"></i>
       </a>
       <div>
-        <h2 class="mb-0">{{ action }} Team</h2>
-        <p class="text-muted mb-0">
-          {{ 'Register a new cricket team' if action == 'Add' else 'Update the team details below' }}
-        </p>
+        <div class="hero-tag mb-1">{{ action | upper }} ENTITY</div>
+        <h2 class="mb-0 fw-bold">{{ action }} <span class="gradient-title">Franchise</span></h2>
       </div>
     </div>
 
-    <div class="card shadow-sm">
-      <div class="card-header cricket-card-header">
-        <h5 class="mb-0">
-          <i class="fas fa-shield-alt me-2"></i>Team Details
-        </h5>
+    <div class="orchid-card">
+      <div class="orchid-card-header">
+        <div class="d-flex align-items-center gap-2">
+          <div class="brand-icon-box" style="width: 28px; height: 28px; font-size: 0.8rem;">
+            <i class="fas fa-database text-white"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 text-white fw-semibold">Oracle Schema: TEAMS</h6>
+            <div class="text-muted small">Fields marked with an asterisk are enforced with NOT NULL & UNIQUE constraints</div>
+          </div>
+        </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body p-4">
         <form method="POST" novalidate>
 
           <!-- Team Name -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Team Name <span class="text-danger">*</span>
+            <label class="form-label">
+              Team Identity / Franchise Name <span class="text-danger">*</span>
             </label>
             <input type="text" name="team_name" class="form-control"
                    placeholder="e.g. Mumbai Warriors"
                    value="{{ team.team_name if team else '' }}"
                    maxlength="100" required />
+            <div class="form-text">Must be unique across the tournament (UNIQUE constraint).</div>
           </div>
 
           <!-- Coach Name -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Coach Name <span class="text-danger">*</span>
+            <label class="form-label">
+              Head Coach <span class="text-danger">*</span>
             </label>
             <input type="text" name="coach_name" class="form-control"
                    placeholder="e.g. Sachin Tendulkar"
@@ -53,8 +57,8 @@
 
           <!-- Home Ground -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Home Ground <span class="text-danger">*</span>
+            <label class="form-label">
+              Home Stadium / Venue <span class="text-danger">*</span>
             </label>
             <input type="text" name="home_ground" class="form-control"
                    placeholder="e.g. Wankhede Stadium, Mumbai"
@@ -64,19 +68,19 @@
 
           <!-- Founded Year -->
           <div class="mb-4">
-            <label class="form-label fw-semibold">Founded Year</label>
+            <label class="form-label">Founded Year</label>
             <input type="number" name="founded_year" class="form-control"
                    placeholder="e.g. 2008" min="1800" max="2100"
                    value="{{ team.founded_year if team else '' }}" />
-            <div class="form-text">Leave blank if unknown.</div>
+            <div class="form-text">Enforced via CHECK (FOUNDED_YEAR BETWEEN 1800 AND 2100).</div>
           </div>
 
-          <!-- Actions -->
-          <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-cricket flex-grow-1">
-              <i class="fas fa-save me-1"></i> {{ action }} Team
+          <!-- Submit Buttons -->
+          <div class="d-flex gap-2 pt-2 border-top" style="border-color: var(--border-subtle) !important;">
+            <button type="submit" class="btn-orchid flex-grow-1 justify-content-center py-2">
+              <i class="fas fa-check-circle me-1"></i> Commit {{ action }}
             </button>
-            <a href="{{ url_for('teams_list') }}" class="btn btn-outline-secondary px-4">
+            <a href="{{ url_for('teams_list') }}" class="btn-orchid-outline px-4">
               Cancel
             </a>
           </div>

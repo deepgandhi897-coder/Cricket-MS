@@ -1,38 +1,54 @@
 {% extends 'base.html' %}
-{% block title %}Statistics — Cricket MS{% endblock %}
+{% block title %}Intelligence & SQL Analytics — CricketMS{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div class="page-header mb-0">
-    <h2><i class="fas fa-chart-bar me-2"></i>Player Statistics</h2>
-    <p class="text-muted mb-0">
-      Aggregated performance — GROUP BY, SUM(), MAX(), COUNT(), LEFT JOIN
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <div class="hero-tag mb-2">
+      <i class="fas fa-wave-square me-1 text-orchid"></i> Real-Time Telemetry & SQL Analytics
+    </div>
+    <h2 class="mb-1 fw-bold">Player <span class="gradient-title">Performance Analytics</span></h2>
+    <p class="text-secondary small mb-0">
+      Aggregated multi-dimensional analytics computed directly inside Oracle using 
+      <code>GROUP BY</code>, <code>SUM()</code>, <code>MAX()</code>, <code>COUNT()</code>, and <code>NVL()</code>.
     </p>
   </div>
-  <a href="{{ url_for('statistics_add') }}" class="btn btn-cricket">
-    <i class="fas fa-plus me-1"></i> Add Stats
+  <a href="{{ url_for('statistics_add') }}" class="btn-orchid">
+    <i class="fas fa-plus"></i> Ingest Match Stats
   </a>
 </div>
 
-<div class="card shadow-sm">
-  <div class="card-header cricket-card-header">
-    <h5 class="mb-0">All-Time Player Leaderboard</h5>
+<!-- ── Leaderboard Table ──────────────────────────────── -->
+<div class="orchid-card mb-4">
+  <div class="orchid-card-header d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+      <div class="brand-icon-box" style="width: 28px; height: 28px; font-size: 0.8rem;">
+        <i class="fas fa-ranking-star text-white"></i>
+      </div>
+      <div>
+        <h6 class="mb-0 text-white fw-semibold">Global Athlete Leaderboard</h6>
+        <div class="text-muted small">Ranked by Total Runs Descending via Oracle Database Engine</div>
+      </div>
+    </div>
+    <span class="orchid-badge" style="background: rgba(104, 51, 255, 0.12); color: var(--orchid-pale); border: 1px solid var(--border-orchid);">
+      Live Aggregation
+    </span>
   </div>
 
-  <div class="card-body p-0">
+  <div class="p-0">
     {% if stats %}
       <div class="table-responsive">
-        <table class="table table-hover mb-0">
-          <thead class="table-dark">
+        <table class="table table-hover">
+          <thead>
             <tr>
-              <th>#</th>
-              <th>Player</th>
-              <th>Team</th>
+              <th>Rank</th>
+              <th>Athlete Name</th>
+              <th>Franchise</th>
               <th>Role</th>
               <th class="text-center">Matches</th>
               <th class="text-center">Total Runs</th>
-              <th class="text-center">Highest</th>
+              <th class="text-center">Highest Score</th>
               <th class="text-center">Wickets</th>
               <th class="text-center">Catches</th>
             </tr>
@@ -46,33 +62,72 @@
             } %}
             {% for s in stats %}
             <tr>
-              <td class="text-muted">{{ loop.index }}</td>
-              <td><strong>{{ s.player_name }}</strong></td>
-              <td>
-                {% if s.team_name %}
-                  <span class="badge bg-success">{{ s.team_name }}</span>
+              <td class="text-muted small">
+                {% if loop.index == 1 %}
+                  <span class="orchid-badge" style="background: rgba(245, 158, 11, 0.15); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4);">
+                    🥇 1st
+                  </span>
+                {% elif loop.index == 2 %}
+                  <span class="orchid-badge" style="background: rgba(203, 213, 225, 0.15); color: #e2e8f0; border: 1px solid rgba(203, 213, 225, 0.3);">
+                    🥈 2nd
+                  </span>
+                {% elif loop.index == 3 %}
+                  <span class="orchid-badge" style="background: rgba(217, 119, 6, 0.15); color: #fdba74; border: 1px solid rgba(217, 119, 6, 0.3);">
+                    🥉 3rd
+                  </span>
                 {% else %}
-                  <span class="badge bg-warning text-dark">Unassigned</span>
+                  #{{ loop.index }}
                 {% endif %}
               </td>
               <td>
-                <span class="badge {{ role_classes.get(s.role, 'bg-secondary') }}">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="brand-icon-box" style="width: 26px; height: 26px; font-size: 0.75rem; border-radius: 7px; background: rgba(255,255,255,0.06); box-shadow: none;">
+                    <i class="fas fa-user text-secondary"></i>
+                  </div>
+                  <strong class="text-white">{{ s.player_name }}</strong>
+                </div>
+              </td>
+              <td>
+                {% if s.team_name %}
+                  <span class="orchid-badge" style="background: rgba(104, 51, 255, 0.12); color: var(--orchid-pale); border: 1px solid var(--border-orchid);">
+                    {{ s.team_name }}
+                  </span>
+                {% else %}
+                  <span class="orchid-badge" style="background: rgba(255,255,255,0.04); color: var(--text-muted);">
+                    Unassigned
+                  </span>
+                {% endif %}
+              </td>
+              <td>
+                <span class="orchid-badge {{ role_classes.get(s.role, 'badge-allrounder') }}">
                   {{ s.role }}
                 </span>
               </td>
-              <td class="text-center">{{ s.matches_played or 0 }}</td>
-              <td class="text-center"><strong>{{ s.total_runs or 0 }}</strong></td>
+              <td class="text-center">
+                <span class="badge-team-pill">{{ s.matches_played or 0 }}</span>
+              </td>
+              <td class="text-center">
+                <span class="fw-bold text-white fs-6">{{ s.total_runs or 0 }}</span>
+              </td>
               <td class="text-center">
                 {% if s.highest_score and s.highest_score > 0 %}
-                  <span class="badge bg-warning text-dark">
-                    ⭐ {{ s.highest_score }}
+                  <span class="orchid-badge" style="background: rgba(245, 158, 11, 0.12); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.3);">
+                    <i class="fas fa-star text-warning me-1"></i>{{ s.highest_score }}
                   </span>
                 {% else %}
                   <span class="text-muted">—</span>
                 {% endif %}
               </td>
-              <td class="text-center">{{ s.total_wickets or 0 }}</td>
-              <td class="text-center">{{ s.total_catches or 0 }}</td>
+              <td class="text-center">
+                <span class="orchid-badge" style="background: rgba(244, 63, 94, 0.12); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.25);">
+                  {{ s.total_wickets or 0 }}
+                </span>
+              </td>
+              <td class="text-center">
+                <span class="orchid-badge" style="background: rgba(6, 182, 212, 0.12); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.25);">
+                  {{ s.total_catches or 0 }}
+                </span>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -80,23 +135,39 @@
       </div>
     {% else %}
       <div class="empty-state">
-        <i class="fas fa-chart-bar fa-3x d-block mb-3"></i>
-        <p>No statistics recorded yet.</p>
-        <a href="{{ url_for('statistics_add') }}" class="btn btn-cricket">
-          <i class="fas fa-plus me-1"></i> Add Stats
+        <div class="empty-state-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <h6 class="text-white mb-1">No telemetry captured</h6>
+        <p class="text-muted small mb-3">Begin by ingesting player statistics from match events.</p>
+        <a href="{{ url_for('statistics_add') }}" class="btn-orchid">
+          <i class="fas fa-plus"></i> Ingest Match Stats
         </a>
       </div>
     {% endif %}
   </div>
 </div>
 
-<!-- SQL info card -->
-<div class="card mt-4 border-0 bg-white shadow-sm">
-  <div class="card-body">
-    <h6 class="fw-bold text-muted mb-2">
-      <i class="fas fa-database me-2"></i>SQL Query Used
-    </h6>
-    <pre class="bg-dark text-success rounded p-3 mb-0" style="font-size:0.78rem;overflow-x:auto;">SELECT p.PLAYER_NAME, t.TEAM_NAME, p.ROLE,
+<!-- ── Oracle SQL Engine Showcase Box (Viva Ready) ────── -->
+<div class="orchid-code-box">
+  <div class="orchid-code-header">
+    <div class="d-flex align-items-center gap-2">
+      <div class="code-dots">
+        <span class="code-dot dot-red"></span>
+        <span class="code-dot dot-yellow"></span>
+        <span class="code-dot dot-green"></span>
+      </div>
+      <span class="ms-2 fw-semibold text-white">
+        <i class="fas fa-database text-orchid me-1"></i> Oracle SQL Engine Query
+      </span>
+    </div>
+    <span class="orchid-badge" style="background: rgba(16, 185, 129, 0.1); color: #34d399; font-size: 0.7rem;">
+      ORACLE 23ai SYNTAX
+    </span>
+  </div>
+  <pre class="orchid-code-content"><code>SELECT p.PLAYER_NAME,
+       t.TEAM_NAME,
+       p.ROLE,
        COUNT(ps.MATCH_ID)        AS matches_played,
        NVL(SUM(ps.RUNS),    0)   AS total_runs,
        NVL(MAX(ps.RUNS),    0)   AS highest_score,
@@ -105,9 +176,8 @@
 FROM   PLAYERS p
 LEFT JOIN TEAMS             t  ON p.TEAM_ID   = t.TEAM_ID
 LEFT JOIN PLAYER_STATISTICS ps ON p.PLAYER_ID = ps.PLAYER_ID
-GROUP BY p.PLAYER_NAME, t.TEAM_NAME, p.ROLE
-ORDER BY total_runs DESC NULLS LAST;</pre>
-  </div>
+GROUP BY p.PLAYER_ID, p.PLAYER_NAME, t.TEAM_NAME, p.ROLE
+ORDER BY total_runs DESC NULLS LAST;</code></pre>
 </div>
 
 {% endblock %}

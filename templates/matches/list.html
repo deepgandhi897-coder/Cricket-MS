@@ -1,76 +1,92 @@
 {% extends 'base.html' %}
-{% block title %}Matches — Cricket MS{% endblock %}
+{% block title %}Fixtures & Encounters — CricketMS{% endblock %}
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <div class="page-header mb-0">
-    <h2><i class="fas fa-trophy me-2"></i>Matches</h2>
-    <p class="text-muted mb-0">All recorded cricket matches</p>
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+  <div>
+    <div class="hero-tag mb-2">
+      <i class="fas fa-crosshairs me-1 text-emerald"></i> Tournament Encounters
+    </div>
+    <h2 class="mb-1 fw-bold">Match <span class="gradient-title">Timeline & Results</span></h2>
+    <p class="text-secondary small mb-0">Managed relational entity in Oracle table <code>MATCHES</code> joined across 3 foreign keys to <code>TEAMS</code>.</p>
   </div>
-  <a href="{{ url_for('matches_add') }}" class="btn btn-cricket">
-    <i class="fas fa-plus me-1"></i> Add Match
+  <a href="{{ url_for('matches_add') }}" class="btn-orchid">
+    <i class="fas fa-plus"></i> Record Match
   </a>
 </div>
 
-<div class="card shadow-sm">
-  <div class="card-header cricket-card-header">
-    <h5 class="mb-0">All Matches
-      <span class="badge bg-light text-dark ms-2">{{ matches | length }}</span>
-    </h5>
+<div class="orchid-card">
+  <div class="orchid-card-header d-flex justify-content-between align-items-center">
+    <span class="text-secondary small fw-semibold text-uppercase">
+      Logged Encounters
+    </span>
+    <span class="orchid-badge" style="background: rgba(16, 185, 129, 0.12); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3);">
+      {{ matches | length }} Fixtures
+    </span>
   </div>
 
-  <div class="card-body p-0">
+  <div class="p-0">
     {% if matches %}
       <div class="table-responsive">
-        <table class="table table-hover mb-0">
-          <thead class="table-dark">
+        <table class="table table-hover">
+          <thead>
             <tr>
               <th>#</th>
-              <th>Match</th>
-              <th>Type</th>
-              <th>Date</th>
-              <th>Venue</th>
-              <th>Winner</th>
-              <th class="text-center">Actions</th>
+              <th>Contestants</th>
+              <th>Format</th>
+              <th>Match Date</th>
+              <th>Stadium / Venue</th>
+              <th>Result / Winner</th>
+              <th class="text-end">Operations</th>
             </tr>
           </thead>
           <tbody>
             {% for m in matches %}
             <tr>
-              <td class="text-muted">{{ loop.index }}</td>
+              <td class="text-muted small">{{ loop.index }}</td>
               <td>
-                <strong>{{ m.team1_name }}</strong>
-                <span class="text-muted mx-2">vs</span>
-                <strong>{{ m.team2_name }}</strong>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge-team-pill">{{ m.team1_name }}</span>
+                  <span class="text-muted small fw-bold">VS</span>
+                  <span class="badge-team-pill">{{ m.team2_name }}</span>
+                </div>
               </td>
               <td>
-                <span class="badge match-type-badge">{{ m.match_type }}</span>
+                <span class="badge-match-format">{{ m.match_type }}</span>
               </td>
-              <td>{{ m.match_date }}</td>
-              <td>
-                <i class="fas fa-map-marker-alt text-muted me-1"></i>{{ m.venue }}
+              <td class="text-secondary" style="font-size: 0.85rem;">
+                <i class="far fa-calendar-alt me-1 text-muted"></i>{{ m.match_date }}
+              </td>
+              <td class="text-secondary" style="font-size: 0.85rem;">
+                <i class="fas fa-location-dot me-1 text-muted"></i>{{ m.venue }}
               </td>
               <td>
                 {% if m.winner_name %}
-                  <span class="badge bg-success">🏆 {{ m.winner_name }}</span>
+                  <span class="orchid-badge badge-winner">
+                    <i class="fas fa-crown text-warning"></i> {{ m.winner_name }}
+                  </span>
                 {% else %}
-                  <span class="badge bg-secondary">No Result</span>
+                  <span class="orchid-badge" style="background: rgba(255,255,255,0.06); color: var(--text-muted);">
+                    Undecided
+                  </span>
                 {% endif %}
               </td>
-              <td class="text-center">
-                <a href="{{ url_for('matches_edit', match_id=m.match_id) }}"
-                   class="btn btn-sm btn-outline-primary me-1">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <form method="POST"
-                      action="{{ url_for('matches_delete', match_id=m.match_id) }}"
-                      class="d-inline"
-                      onsubmit="return confirm('Delete this match? All player statistics for this match will also be removed.');">
-                  <button type="submit" class="btn btn-sm btn-outline-danger">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </form>
+              <td class="text-end">
+                <div class="d-inline-flex gap-1">
+                  <a href="{{ url_for('matches_edit', match_id=m.match_id) }}"
+                     class="btn-action-icon" title="Edit Fixture">
+                    <i class="fas fa-pen-to-square small"></i>
+                  </a>
+                  <form method="POST"
+                        action="{{ url_for('matches_delete', match_id=m.match_id) }}"
+                        class="d-inline"
+                        onsubmit="return confirm('Delete this fixture? Associated player statistics will be purged.');">
+                    <button type="submit" class="btn-action-icon btn-action-delete" title="Delete Fixture">
+                      <i class="fas fa-trash small"></i>
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
             {% endfor %}
@@ -79,10 +95,13 @@
       </div>
     {% else %}
       <div class="empty-state">
-        <i class="fas fa-trophy fa-3x d-block mb-3"></i>
-        <p>No matches recorded yet. Start by adding a match!</p>
-        <a href="{{ url_for('matches_add') }}" class="btn btn-cricket">
-          <i class="fas fa-plus me-1"></i> Add Match
+        <div class="empty-state-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h6 class="text-white mb-1">No matches recorded</h6>
+        <p class="text-muted small mb-3">Begin by recording tournament fixtures and outcomes.</p>
+        <a href="{{ url_for('matches_add') }}" class="btn-orchid">
+          <i class="fas fa-plus"></i> Record Match
         </a>
       </div>
     {% endif %}

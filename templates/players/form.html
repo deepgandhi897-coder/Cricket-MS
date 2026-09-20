@@ -1,36 +1,41 @@
 {% extends 'base.html' %}
-{% block title %}{{ action }} Player — Cricket MS{% endblock %}
+{% block title %}{{ action }} Athlete — CricketMS{% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center">
   <div class="col-lg-7">
 
-    <div class="d-flex align-items-center mb-4">
-      <a href="{{ url_for('players_list') }}" class="btn btn-outline-secondary me-3">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('players_list') }}" class="btn-orchid-outline p-2 px-3">
         <i class="fas fa-arrow-left"></i>
       </a>
       <div>
-        <h2 class="mb-0">{{ action }} Player</h2>
-        <p class="text-muted mb-0">
-          {{ 'Register a new player and optionally assign a team' if action == 'Add'
-             else 'Update player details and team assignment' }}
-        </p>
+        <div class="hero-tag mb-1">{{ action | upper }} ATHLETE</div>
+        <h2 class="mb-0 fw-bold">{{ action }} <span class="gradient-title">Player Profile</span></h2>
       </div>
     </div>
 
-    <div class="card shadow-sm">
-      <div class="card-header cricket-card-header">
-        <h5 class="mb-0"><i class="fas fa-user me-2"></i>Player Details</h5>
+    <div class="orchid-card">
+      <div class="orchid-card-header">
+        <div class="d-flex align-items-center gap-2">
+          <div class="brand-icon-box" style="width: 28px; height: 28px; font-size: 0.8rem;">
+            <i class="fas fa-id-card text-white"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 text-white fw-semibold">Oracle Schema: PLAYERS</h6>
+            <div class="text-muted small">Foreign key relationship mapped to TEAMS.TEAM_ID</div>
+          </div>
+        </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body p-4">
         <form method="POST" novalidate>
 
           <!-- Player Name -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Player Name <span class="text-danger">*</span>
+            <label class="form-label">
+              Athlete Full Name <span class="text-danger">*</span>
             </label>
             <input type="text" name="player_name" class="form-control"
                    placeholder="e.g. Virat Kohli"
@@ -38,11 +43,11 @@
                    maxlength="100" required />
           </div>
 
-          <!-- Role + Jersey -->
+          <!-- Role + Jersey No -->
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label class="form-label fw-semibold">
-                Role <span class="text-danger">*</span>
+              <label class="form-label">
+                Tactical Role <span class="text-danger">*</span>
               </label>
               <select name="role" class="form-select" required>
                 {% for r in ['Batsman', 'Bowler', 'All-Rounder', 'Wicket-Keeper'] %}
@@ -52,10 +57,11 @@
                   </option>
                 {% endfor %}
               </select>
+              <div class="form-text">Enforced via CHECK constraint.</div>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label fw-semibold">
-                Jersey No. <span class="text-danger">*</span>
+              <label class="form-label">
+                Squad Number (Jersey) <span class="text-danger">*</span>
               </label>
               <input type="number" name="jersey_no" class="form-control"
                      placeholder="e.g. 18" min="1" max="999"
@@ -65,8 +71,8 @@
 
           <!-- Nationality -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Nationality <span class="text-danger">*</span>
+            <label class="form-label">
+              Country / Nationality <span class="text-danger">*</span>
             </label>
             <input type="text" name="nationality" class="form-control"
                    placeholder="e.g. Indian"
@@ -74,30 +80,30 @@
                    maxlength="50" required />
           </div>
 
-          <!-- Team Assignment (FK dropdown) -->
+          <!-- Team Assignment (FK) -->
           <div class="mb-4">
-            <label class="form-label fw-semibold">Assign to Team</label>
+            <label class="form-label">Franchise Allocation (Foreign Key)</label>
             <select name="team_id" class="form-select">
-              <option value="">— Unassigned —</option>
+              <option value="">— Standby / Unallocated Pool (NULL) —</option>
               {% for t in teams %}
                 <option value="{{ t.team_id }}"
                         {% if player and player.team_id == t.team_id %}selected{% endif %}>
-                  {{ t.team_name }}
+                  🏏 {{ t.team_name }}
                 </option>
               {% endfor %}
             </select>
             <div class="form-text">
-              <i class="fas fa-info-circle me-1"></i>
-              Leave blank to keep the player unassigned.
+              <i class="fas fa-link text-orchid me-1"></i>
+              References <code>TEAMS.TEAM_ID</code>. Unallocated players remain active in the system.
             </div>
           </div>
 
           <!-- Actions -->
-          <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-cricket flex-grow-1">
-              <i class="fas fa-save me-1"></i> {{ action }} Player
+          <div class="d-flex gap-2 pt-2 border-top" style="border-color: var(--border-subtle) !important;">
+            <button type="submit" class="btn-orchid flex-grow-1 justify-content-center py-2">
+              <i class="fas fa-check-circle me-1"></i> Commit {{ action }}
             </button>
-            <a href="{{ url_for('players_list') }}" class="btn btn-outline-secondary px-4">
+            <a href="{{ url_for('players_list') }}" class="btn-orchid-outline px-4">
               Cancel
             </a>
           </div>

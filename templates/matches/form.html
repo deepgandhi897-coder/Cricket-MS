@@ -1,69 +1,76 @@
 {% extends 'base.html' %}
-{% block title %}{{ action }} Match — Cricket MS{% endblock %}
+{% block title %}{{ action }} Match — CricketMS{% endblock %}
 
 {% block content %}
 
 <div class="row justify-content-center">
   <div class="col-lg-8">
 
-    <div class="d-flex align-items-center mb-4">
-      <a href="{{ url_for('matches_list') }}" class="btn btn-outline-secondary me-3">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('matches_list') }}" class="btn-orchid-outline p-2 px-3">
         <i class="fas fa-arrow-left"></i>
       </a>
       <div>
-        <h2 class="mb-0">{{ action }} Match</h2>
-        <p class="text-muted mb-0">
-          {{ 'Record a new cricket match' if action == 'Add'
-             else 'Update match details' }}
-        </p>
+        <div class="hero-tag mb-1">{{ action | upper }} FIXTURE</div>
+        <h2 class="mb-0 fw-bold">{{ action }} <span class="gradient-title">Match Event</span></h2>
       </div>
     </div>
 
-    <div class="card shadow-sm">
-      <div class="card-header cricket-card-header">
-        <h5 class="mb-0"><i class="fas fa-trophy me-2"></i>Match Details</h5>
+    <div class="orchid-card">
+      <div class="orchid-card-header">
+        <div class="d-flex align-items-center gap-2">
+          <div class="brand-icon-box" style="width: 28px; height: 28px; font-size: 0.8rem;">
+            <i class="fas fa-trophy text-white"></i>
+          </div>
+          <div>
+            <h6 class="mb-0 text-white fw-semibold">Oracle Schema: MATCHES</h6>
+            <div class="text-muted small">Foreign keys: TEAM1_ID, TEAM2_ID, and WINNER_ID referencing TEAMS</div>
+          </div>
+        </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body p-4">
         <form method="POST" novalidate>
 
-          <!-- Team 1 & Team 2 -->
+          <!-- Opponents Row -->
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label class="form-label fw-semibold">
-                Team 1 <span class="text-danger">*</span>
+              <label class="form-label">
+                Team 1 (Franchise Alpha) <span class="text-danger">*</span>
               </label>
               <select name="team1_id" class="form-select" required>
                 <option value="">— Select Team 1 —</option>
                 {% for t in teams %}
                   <option value="{{ t.team_id }}"
                           {% if match and match.team1_id == t.team_id %}selected{% endif %}>
-                    {{ t.team_name }}
+                    🏏 {{ t.team_name }}
                   </option>
                 {% endfor %}
               </select>
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label fw-semibold">
-                Team 2 <span class="text-danger">*</span>
+              <label class="form-label">
+                Team 2 (Franchise Beta) <span class="text-danger">*</span>
               </label>
               <select name="team2_id" class="form-select" required>
                 <option value="">— Select Team 2 —</option>
                 {% for t in teams %}
                   <option value="{{ t.team_id }}"
                           {% if match and match.team2_id == t.team_id %}selected{% endif %}>
-                    {{ t.team_name }}
+                    🏏 {{ t.team_name }}
                   </option>
                 {% endfor %}
               </select>
             </div>
           </div>
 
-          <!-- Winner -->
+          <!-- Winner Dropdown -->
           <div class="mb-3">
-            <label class="form-label fw-semibold">Winner</label>
+            <label class="form-label">
+              Outcome / Designated Winner
+            </label>
             <select name="winner_id" class="form-select">
-              <option value="">— No Result / Match in Progress —</option>
+              <option value="">— Tie / Draw / Undecided (NULL) —</option>
               {% for t in teams %}
                 <option value="{{ t.team_id }}"
                         {% if match and match.winner_id == t.team_id %}selected{% endif %}>
@@ -71,21 +78,23 @@
                 </option>
               {% endfor %}
             </select>
-            <div class="form-text">Must be either Team 1 or Team 2.</div>
+            <div class="form-text">
+              References <code>TEAMS.TEAM_ID</code>. Must correspond to one of the competing teams.
+            </div>
           </div>
 
-          <!-- Date + Type -->
+          <!-- Date & Format Row -->
           <div class="row">
             <div class="col-md-6 mb-3">
-              <label class="form-label fw-semibold">
+              <label class="form-label">
                 Match Date <span class="text-danger">*</span>
               </label>
               <input type="date" name="match_date" class="form-control" required
                      value="{{ match.match_date if match else '' }}" />
             </div>
             <div class="col-md-6 mb-3">
-              <label class="form-label fw-semibold">
-                Match Type <span class="text-danger">*</span>
+              <label class="form-label">
+                Tournament Format <span class="text-danger">*</span>
               </label>
               <select name="match_type" class="form-select" required>
                 {% for mt in ['T20', 'ODI', 'Test'] %}
@@ -95,13 +104,14 @@
                   </option>
                 {% endfor %}
               </select>
+              <div class="form-text">Enforced via CHECK (MATCH_TYPE IN ('Test','ODI','T20')).</div>
             </div>
           </div>
 
           <!-- Venue -->
           <div class="mb-4">
-            <label class="form-label fw-semibold">
-              Venue <span class="text-danger">*</span>
+            <label class="form-label">
+              Host Stadium / Venue <span class="text-danger">*</span>
             </label>
             <input type="text" name="venue" class="form-control"
                    placeholder="e.g. Wankhede Stadium, Mumbai"
@@ -110,11 +120,11 @@
           </div>
 
           <!-- Actions -->
-          <div class="d-flex gap-2">
-            <button type="submit" class="btn btn-cricket flex-grow-1">
-              <i class="fas fa-save me-1"></i> {{ action }} Match
+          <div class="d-flex gap-2 pt-2 border-top" style="border-color: var(--border-subtle) !important;">
+            <button type="submit" class="btn-orchid flex-grow-1 justify-content-center py-2">
+              <i class="fas fa-check-circle me-1"></i> Commit {{ action }}
             </button>
-            <a href="{{ url_for('matches_list') }}" class="btn btn-outline-secondary px-4">
+            <a href="{{ url_for('matches_list') }}" class="btn-orchid-outline px-4">
               Cancel
             </a>
           </div>
